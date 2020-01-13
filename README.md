@@ -1,2 +1,0 @@
-# reactLibraryApp
-Created with CodeSandbox
