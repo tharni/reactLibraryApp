@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="container">
         <h1>Welcome to Ezhil Library</h1>
         <button id="manageBooks" onClick={this.handleToggle}>
           Manage Books

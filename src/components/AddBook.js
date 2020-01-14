@@ -5,54 +5,55 @@ import { addBook } from "../redux/actions";
 class AddBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { input: "" };
+    this.state = {
+      bookName: "",
+      author: ""
+    };
   }
 
-  updateInput = input => {
-    this.setState({ input });
+  updateInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   handleAddBook = () => {
-    this.props.addBook(this.state.input);
-    this.setState({ input: "" });
+    this.props.addBook(this.state.bookName);
+    this.setState({
+      bookName: "",
+      author: ""
+    });
   };
-
   render() {
     return (
-      <form>
+      <div>
         <div class="form-group">
           <label for="bookName">Book Name</label>
-          <input class="form-control" id="bookName" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <input
+            class="form-control"
+            name="bookName"
+            onChange={this.updateInput}
+            value={this.state.bookName}
+            placeholder="Enter Book name"
+          />
+          <small id="bookNameHelp" class="form-text text-muted">
+            Make sure to use correct spelling
+          </small>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label for="author">Author</label>
+          <input
+            class="form-control"
+            name="author"
+            onChange={this.updateInput}
+            value={this.state.author}
+            placeholder="Enter Author"
+          />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
 
-      <div>
-        <div>
-          <label>Book Name:</label>
-          <input
-            onChange={e => this.updateInput(e.target.value)}
-            value={this.state.input}
-          />
-        </div>
-        <div>
-          <label>Author:</label>
-          <input
-            onChange={e => this.updateInput(e.target.value)}
-            value={this.state.input}
-          />
-        </div>
-        <div className="spacer" />
-        <div>
-          <button className="add-todo" onClick={this.handleAddBook}>
-            Add book
-          </button>
-        </div>
+        <button class="btn btn-primary" onClick={this.handleAddBook}>
+          Add Book
+        </button>
       </div>
     );
   }
