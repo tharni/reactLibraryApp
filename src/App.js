@@ -1,6 +1,11 @@
 import React from "react";
 import "./styles.css";
 import BookMgmt from "./BookMgmt";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import AddBook from "./components/AddBook";
+import EditBook from "./components/EditBook";
+import Books from "./components/bookList";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,13 +24,21 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div class="container">
-        <h1>Welcome to Ezhil Library</h1>
-        <button id="manageBooks" onClick={this.handleToggle}>
-          Manage Books
-        </button>
-        <div>{this.state.toggle ? <BookMgmt /> : ""}</div>
-      </div>
+      <Router>
+        <div className="container">
+          <h1>Welcome to Ezhil Library</h1>
+          <button id="manageBooks" onClick={this.handleToggle}>
+            Manage Books
+          </button>
+          <div>{this.state.toggle ? <BookMgmt /> : ""}</div>
+
+          <Switch>
+            <Route exact path="/create" component={AddBook} />
+            <Route exact path="/edit/:bookId" component={EditBook} />
+            <Route exact path="/all" component={Books} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

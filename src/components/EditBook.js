@@ -1,13 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addBook } from "../redux/actions";
+import { getBookById } from "../redux/selectors";
+import { matchPath } from "react-router";
+import { editBook } from "../redux/actions";
 
-class AddBook extends React.Component {
+class EditBook extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.match.params.bookId);
     this.state = {
-      bookName: "",
-      author: ""
+      bookId: this.props.book.bookId,
+      bookName: this.props.book.bookName,
+      author: this.props.book.author
     };
   }
 
@@ -17,13 +21,14 @@ class AddBook extends React.Component {
     });
   };
 
-  handleAddBook = () => {
-    this.props.addBook(this.state.bookName, this.state.author);
-    this.setState({
-      bookName: "",
-      author: ""
-    });
+  handleEditBook = () => {
+    this.props.editBook(
+      this.state.bookId,
+      this.state.bookName,
+      this.state.author
+    );
   };
+
   render() {
     return (
       <div>
@@ -51,16 +56,34 @@ class AddBook extends React.Component {
           />
         </div>
 
-        <button className="btn btn-primary" onClick={this.handleAddBook}>
-          Add Book
+        <button className="btn btn-primary" onClick={this.handleEditBook}>
+          Edit Book
         </button>
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  const match = matchPath(window.location.pathname, {
+    path: "/edit/:bookId",
+    exact: true,
+    strict: false
+  });
+
+  let params = match != null ? match.params : null;
+  let bookId = params != null ? params.bookId : null;
+  console.log("mapStateToProps Book Id is " + bookId);
+  const book = getBookById(state, bookId);
+  return { book };
+};
+
 export default connect(
+  mapStateToProps,
+  { editBook }
+)(EditBook);
+/*export default connect(
   null,
-  { addBook }
-)(AddBook);
+  {}
+)(EditBook);*/
 // export default AddTodo;
